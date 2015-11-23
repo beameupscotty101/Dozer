@@ -1,20 +1,4 @@
 
-/*
- * File: DozerBumperService.h
- * Author: J. Edward Carryer
- * Modified: Gabriel H Elkaim
- *
- * Template file to set up a simple service to work with the Events and Services
- * Framework (ES_Framework) on the Uno32 for the CMPE-118/L class. Note that this file
- * will need to be modified to fit your exact needs, and most of the names will have
- * to be changed to match your code.
- *
- * This is provided as an example and a good place to start.
- *
- * Created on 23/Oct/2011
- * Updated on 13/Nov/2013
- */
-
 /*******************************************************************************
  * MODULE #INCLUDE                                                             *
  ******************************************************************************/
@@ -45,6 +29,7 @@ typedef union BOULDER {
 } BOULDER;
 
 static BOULDER boulder;
+static uint8_t tapeSensorLedData_ON[6];
 
 /*******************************************************************************
  * PRIVATE FUNCTION PROTOTYPES                                                 *
@@ -119,7 +104,9 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
     ES_Event ReturnEvent;
     ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
 
-    static uint8_t tapeSensorLedData_ON[6];
+    //this is used as a flag
+    char event = ERROR;
+
 
     if (ThisEvent.EventType == ES_INIT)// only respond to ES_Init
     {
@@ -133,6 +120,7 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
         if (boulder.Tapeled == ON) {
             TapeSensorLed(ON);
             BoulderTapeSensor(tapeSensorLedData_ON);
+            boulder.Tapeled = OFF;
         } else if (boulder.Tapeled == OFF) {
             uint8_t tapeSensorLedData_OFF[6];
             uint8_t tapeSensorFinalReading[6];
@@ -143,14 +131,22 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
             //subtract the two readings
             int i = 0;
             for (; i < 7; i++) {
-                tapeSensorFinalReading[i] = tapeSensorLedData_OFF[i] - tapeSensorLedData_OFF[i];
+                tapeSensorFinalReading[i] = tapeSensorLedData_ON[i] - tapeSensorLedData_OFF[i];
             }
 
             //do event checking with hysterisis element wise through the array
             i = 0;
             for (; i < 7; i++) {
+                if ( == SUCCESS) {
 
+                }
             }
+            boulder.Tapeled = ON;
+        }
+
+        if (event == SUCCESS) {
+            ReturnEvent.EventType = TAPESENSOR;
+            ReturnEvent.EventParam = (uint16_t) LIGHT_TO_DARK;
         }
 
 
@@ -163,25 +159,21 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
 /*******************************************************************************
  * PRIVATE FUNCTIONs                                                           *
  ******************************************************************************/
-uint8_t CheckLightLevel(void) {
-    static int lastLightEvent = 0;
-    int currentLightLevel;
+char CheckLightLevel(int currentLightLevel, int lastLightEvent) {
     ES_Event thisEvent;
     uint8_t returnVal = FALSE;
 
     currentLightLevel = Roach_LightLevel();
-    if ((currentLightLevel > DARK_THRESHOLD) && (lastLightEvent != DARK_TO_LIGHT)) { //event detected
+    if ((currentLightLevel > DARK_THRESHOLD) && (lastLightEvent != DARK_TO_LIGHT)) {
         thisEvent.EventType = LIGHTLEVEL;
         thisEvent.EventParam = (uint16_t) DARK_TO_LIGHT;
         PostRoachFSM(thisEvent);
         returnVal = TRUE;
         lastLightEvent = DARK_TO_LIGHT;
 
-        //        printf("x");
     } else if ((currentLightLevel < LIGHT_THRESHOLD) && (lastLightEvent != LIGHT_TO_DARK)) {
         thisEvent.EventType = LIGHTLEVEL;
         thisEvent.EventParam = (uint16_t) LIGHT_TO_DARK;
-        PostRoachFSM(thisEvent);
         returnVal = TRUE;
         lastLightEvent = LIGHT_TO_DARK;
     }
