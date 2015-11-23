@@ -19,6 +19,9 @@
 #define MUX_OUTPT AD_PORTV6
 #define MUX_PORT PORTV
 
+#define TAPESENSORLEDPIN PIN5
+#define TAPESENSORLEDPORT PORTV
+
 //FSR's
 #define FSR1 AD_PORTW3
 #define FSR2 AD_PORTW4
@@ -88,7 +91,7 @@ void Boulder_Init(void) {
 
     //Tape Sensor
     IO_PortsSetPortOutputs(MUX_PORT, MUX_S0 | MUX_S1 | MUX_S2);
-    AD_AddPins(MUX_PORT, MUX_OUTPT);
+    AD_AddPins(MUX_OUTPT);
 
     //FSR's
     AD_AddPins(FSR1 | FSR2);
@@ -117,8 +120,8 @@ void Boulder_Init(void) {
 /*Tape Sensor******************************************************************/
 uint8_t * BoulderTapeSensor(void) {
     uint8_t tapesensordata[6];
-    uint8_t TapeSensorStatus = 0;
-    for (int sensor_select = 0; sensor_select < 6; sensor_select++) {
+    int sensor_select = 0;
+    for (; sensor_select < 6; sensor_select++) {
         switch (sensor_select) {
             case 0:
             {
@@ -176,7 +179,19 @@ uint8_t * BoulderTapeSensor(void) {
         }
     }
 
-    return TapeSensorStatus;
+    return tapesensordata;
+}
+
+void TapeSensorLed(int active) {
+    if (active > 1 || active < 0) {
+        return;
+    }
+
+    if (active == 1) {
+        IO_PortsSetPortBits(TAPESENSORLEDPORT, TAPESENSORLEDPIN);
+    } else if (active == 0) {
+        IO_PortsClearPortBits(TAPESENSORLEDPORT, TAPESENSORLEDPIN);
+    }
 }
 
 /*Motor Driving****************************************************************/
@@ -203,7 +218,7 @@ char Boulder_LeftMtrSpeed(char newSpeed) {
         PWM_SetDutyCycle(LEFT_MOTOR, abs(1000 / newSpeed));
     }
 
-    return Success;
+    return SUCCESS;
 }
 
 /**
@@ -226,7 +241,7 @@ char Boulder_RightMtrSpeed(char newSpeed) {
         PWM_SetDutyCycle(RIGHT_MOTOR, abs(1000 / newSpeed));
     }
 
-    return Success;
+    return SUCCESS;
 }
 
 /**

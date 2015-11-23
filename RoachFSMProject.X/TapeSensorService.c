@@ -41,8 +41,6 @@ typedef union BOULDER {
     int Tapeled;
 }BOULDER;
 
-#define THRESHOLD 800
-
 static BOULDER boulder;
 
 /*******************************************************************************
