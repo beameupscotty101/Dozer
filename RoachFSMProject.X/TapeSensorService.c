@@ -31,16 +31,25 @@
  * MODULE #DEFINES                                                             *
  ******************************************************************************/
 
-#define BUMPER_TIMER 3
+#define TAPE_TIMER 3
+#define TIMER_LENGTH 5 //in milliseconds
+
 #define ON 1
 #define OFF 0
+
+typedef union BOULDER {
+    int Tapeled;
+}BOULDER;
+
+#define THRESHOLD 800
+
+static BOULDER boulder;
 
 /*******************************************************************************
  * PRIVATE FUNCTION PROTOTYPES                                                 *
  ******************************************************************************/
 /* Prototypes for private functions for this machine. They should be functions
    relevant to the behavior of this state machine */
-#define THRESHOLD 800
 
 /*******************************************************************************
  * PRIVATE MODULE VARIABLES                                                    *
@@ -71,8 +80,9 @@ uint8_t InitTapeSensorService(uint8_t Priority) {
     MyPriority = Priority;
 
     //Init the timer for 5ms
-    ES_Timer_InitTimer(BUMPER_TIMER, 5);
-
+    ES_Timer_InitTimer(TAPE_TIMER, TIMER_LENGTH);
+    boulder.Tapeled = ON;
+    
     // post the initial transition event
     ThisEvent.EventType = ES_INIT;
     if (ES_PostToService(MyPriority, ThisEvent) == TRUE) {
@@ -108,8 +118,6 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
     ES_Event ReturnEvent;
     ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
 
-    static uint8_t flag = 0;
-
     if (ThisEvent.EventType == ES_INIT)// only respond to ES_Init
     {
         // No hardware initialization or single time setups, those
@@ -119,7 +127,7 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
     }
 
     if (ThisEvent.EventType == ES_TIMEOUT) {
-        if (flag == 1) {
+        if (boulder.Tapeled == ON) {
             BoulderTapeSensor_Led(ON);
             BoulderTapeSensor();
         } else {
@@ -137,14 +145,3 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
 /*******************************************************************************
  * PRIVATE FUNCTIONs                                                           *
  ******************************************************************************/
-
-uint8_t ArraytoBinaryNum(int array[5], int threshold) {
-    uint8_t retnum = 0;
-    int i = 0;
-    for (; i < 6; i++) {
-        if (array[i] > threshold) {
-            retnum ^= 0x01 << i;
-        }
-    }
-    return retnum;
-}

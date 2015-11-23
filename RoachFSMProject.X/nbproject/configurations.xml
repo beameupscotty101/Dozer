@@ -11,10 +11,10 @@
       <itemPath>C:/CMPE118/include/serial.h</itemPath>
       <itemPath>ES_Configure.h</itemPath>
       <itemPath>RoachFSM.h</itemPath>
-      <itemPath>../../../../CMPE118/include/IO_Ports.h</itemPath>
-      <itemPath>../dozer.X/Dozer.h</itemPath>
       <itemPath>DozerFrameworkEvents.h</itemPath>
       <itemPath>TapeSensorService.h</itemPath>
+      <itemPath>Dozer.h</itemPath>
+      <itemPath>../../../../../CMPE118/include/IO_Ports.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -30,11 +30,11 @@
       <itemPath>C:/CMPE118/src/serial.c</itemPath>
       <itemPath>RoachMain.c</itemPath>
       <itemPath>RoachFSM.c</itemPath>
-      <itemPath>../../../../CMPE118/src/IO_Ports.c</itemPath>
-      <itemPath>../../../../CMPE118/src/RC_Servo.c</itemPath>
-      <itemPath>../dozer.X/Dozer.c</itemPath>
       <itemPath>DozerFrameworkEvents.c</itemPath>
+      <itemPath>Dozer.c</itemPath>
       <itemPath>TapeSensorService.c</itemPath>
+      <itemPath>../../../../../CMPE118/src/IO_Ports.c</itemPath>
+      <itemPath>../../../../../CMPE118/src/RC_Servo.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

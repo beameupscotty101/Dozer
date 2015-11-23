@@ -16,9 +16,8 @@
 #define MUX_S0 PIN5
 #define MUX_S1 PIN4
 #define MUX_S2 PIN3
-#define MUX_OUTPT PIN6
+#define MUX_OUTPT AD_PORTV6
 #define MUX_PORT PORTV
-#define THRESHOLD 800
 
 //FSR's
 #define FSR1 AD_PORTW3
@@ -89,7 +88,7 @@ void Boulder_Init(void) {
 
     //Tape Sensor
     IO_PortsSetPortOutputs(MUX_PORT, MUX_S0 | MUX_S1 | MUX_S2);
-    IO_PortsSetPortInputs(MUX_PORT, MUX_OUTPT);
+    AD_AddPins(MUX_PORT, MUX_OUTPT);
 
     //FSR's
     AD_AddPins(FSR1 | FSR2);
@@ -116,7 +115,8 @@ void Boulder_Init(void) {
 }
 
 /*Tape Sensor******************************************************************/
-uint8_t BoulderTapeSensor(void) {
+uint8_t * BoulderTapeSensor(void) {
+    uint8_t tapesensordata[6];
     uint8_t TapeSensorStatus = 0;
     for (int sensor_select = 0; sensor_select < 6; sensor_select++) {
         switch (sensor_select) {
@@ -125,9 +125,7 @@ uint8_t BoulderTapeSensor(void) {
                 IO_PortsClearPortBits(MUX_PORT, MUX_S0);
                 IO_PortsClearPortBits(MUX_PORT, MUX_S1);
                 IO_PortsClearPortBits(MUX_PORT, MUX_S2);
-                if (AD_ReadADPin(MUX_OUTPT) > THRESHOLD) {
-                    TapeSensorStatus |= 0x01;
-                }
+                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
                 break;
             }
 
@@ -136,9 +134,7 @@ uint8_t BoulderTapeSensor(void) {
                 IO_PortsSetPortBits(MUX_PORT, MUX_S0);
                 IO_PortsClearPortBits(MUX_PORT, MUX_S1);
                 IO_PortsClearPortBits(MUX_PORT, MUX_S2);
-                if (AD_ReadADPin(MUX_OUTPT) > THRESHOLD) {
-                    TapeSensorStatus |= (0x01 << sensor_select);
-                }
+                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
                 break;
             }
 
@@ -147,9 +143,7 @@ uint8_t BoulderTapeSensor(void) {
                 IO_PortsClearPortBits(MUX_PORT, MUX_S0);
                 IO_PortsSetPortBits(MUX_PORT, MUX_S1);
                 IO_PortsClearPortBits(MUX_PORT, MUX_S2);
-                if (AD_ReadADPin(MUX_OUTPT) > THRESHOLD) {
-                    TapeSensorStatus |= (0x01 << sensor_select);
-                }
+                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
                 break;
             }
 
@@ -158,9 +152,7 @@ uint8_t BoulderTapeSensor(void) {
                 IO_PortsSetPortBits(MUX_PORT, MUX_S0);
                 IO_PortsSetPortBits(MUX_PORT, MUX_S1);
                 IO_PortsClearPortBits(MUX_PORT, MUX_S2);
-                if (AD_ReadADPin(MUX_OUTPT) > THRESHOLD) {
-                    TapeSensorStatus |= (0x01 << sensor_select);
-                }
+                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
                 break;
             }
 
@@ -169,9 +161,7 @@ uint8_t BoulderTapeSensor(void) {
                 IO_PortsClearPortBits(MUX_PORT, MUX_S0);
                 IO_PortsClearPortBits(MUX_PORT, MUX_S1);
                 IO_PortsSetPortBits(MUX_PORT, MUX_S2);
-                if (AD_ReadADPin(MUX_OUTPT) > THRESHOLD) {
-                    TapeSensorStatus |= (0x01 << sensor_select);
-                }
+                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
                 break;
             }
 
@@ -180,9 +170,7 @@ uint8_t BoulderTapeSensor(void) {
                 IO_PortsSetPortBits(MUX_PORT, MUX_S0);
                 IO_PortsClearPortBits(MUX_PORT, MUX_S1);
                 IO_PortsSetPortBits(MUX_PORT, MUX_S2);
-                if (AD_ReadADPin(MUX_OUTPT) > THRESHOLD) {
-                    TapeSensorStatus |= (0x01 << sensor_select);
-                }
+                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
                 break;
             }
         }

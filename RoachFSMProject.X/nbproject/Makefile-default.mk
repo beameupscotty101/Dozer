@@ -45,17 +45,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=C:/CMPE118/src/AD.c C:/CMPE118/src/BOARD.c C:/CMPE118/src/ES_Framework.c C:/CMPE118/src/pwm.c C:/CMPE118/src/serial.c RoachMain.c RoachFSM.c ../../../../CMPE118/src/IO_Ports.c ../../../../CMPE118/src/RC_Servo.c ../dozer.X/Dozer.c DozerFrameworkEvents.c TapeSensorService.c
+SOURCEFILES_QUOTED_IF_SPACED=C:/CMPE118/src/AD.c C:/CMPE118/src/BOARD.c C:/CMPE118/src/ES_Framework.c C:/CMPE118/src/pwm.c C:/CMPE118/src/serial.c RoachMain.c RoachFSM.c DozerFrameworkEvents.c Dozer.c TapeSensorService.c ../../../../../CMPE118/src/IO_Ports.c ../../../../../CMPE118/src/RC_Servo.c
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/331920610/AD.o ${OBJECTDIR}/_ext/331920610/BOARD.o ${OBJECTDIR}/_ext/331920610/ES_Framework.o ${OBJECTDIR}/_ext/331920610/pwm.o ${OBJECTDIR}/_ext/331920610/serial.o ${OBJECTDIR}/RoachMain.o ${OBJECTDIR}/RoachFSM.o ${OBJECTDIR}/_ext/443050350/IO_Ports.o ${OBJECTDIR}/_ext/443050350/RC_Servo.o ${OBJECTDIR}/_ext/169173975/Dozer.o ${OBJECTDIR}/DozerFrameworkEvents.o ${OBJECTDIR}/TapeSensorService.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/331920610/AD.o.d ${OBJECTDIR}/_ext/331920610/BOARD.o.d ${OBJECTDIR}/_ext/331920610/ES_Framework.o.d ${OBJECTDIR}/_ext/331920610/pwm.o.d ${OBJECTDIR}/_ext/331920610/serial.o.d ${OBJECTDIR}/RoachMain.o.d ${OBJECTDIR}/RoachFSM.o.d ${OBJECTDIR}/_ext/443050350/IO_Ports.o.d ${OBJECTDIR}/_ext/443050350/RC_Servo.o.d ${OBJECTDIR}/_ext/169173975/Dozer.o.d ${OBJECTDIR}/DozerFrameworkEvents.o.d ${OBJECTDIR}/TapeSensorService.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/_ext/331920610/AD.o ${OBJECTDIR}/_ext/331920610/BOARD.o ${OBJECTDIR}/_ext/331920610/ES_Framework.o ${OBJECTDIR}/_ext/331920610/pwm.o ${OBJECTDIR}/_ext/331920610/serial.o ${OBJECTDIR}/RoachMain.o ${OBJECTDIR}/RoachFSM.o ${OBJECTDIR}/DozerFrameworkEvents.o ${OBJECTDIR}/Dozer.o ${OBJECTDIR}/TapeSensorService.o ${OBJECTDIR}/_ext/1953262111/IO_Ports.o ${OBJECTDIR}/_ext/1953262111/RC_Servo.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/_ext/331920610/AD.o.d ${OBJECTDIR}/_ext/331920610/BOARD.o.d ${OBJECTDIR}/_ext/331920610/ES_Framework.o.d ${OBJECTDIR}/_ext/331920610/pwm.o.d ${OBJECTDIR}/_ext/331920610/serial.o.d ${OBJECTDIR}/RoachMain.o.d ${OBJECTDIR}/RoachFSM.o.d ${OBJECTDIR}/DozerFrameworkEvents.o.d ${OBJECTDIR}/Dozer.o.d ${OBJECTDIR}/TapeSensorService.o.d ${OBJECTDIR}/_ext/1953262111/IO_Ports.o.d ${OBJECTDIR}/_ext/1953262111/RC_Servo.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/331920610/AD.o ${OBJECTDIR}/_ext/331920610/BOARD.o ${OBJECTDIR}/_ext/331920610/ES_Framework.o ${OBJECTDIR}/_ext/331920610/pwm.o ${OBJECTDIR}/_ext/331920610/serial.o ${OBJECTDIR}/RoachMain.o ${OBJECTDIR}/RoachFSM.o ${OBJECTDIR}/_ext/443050350/IO_Ports.o ${OBJECTDIR}/_ext/443050350/RC_Servo.o ${OBJECTDIR}/_ext/169173975/Dozer.o ${OBJECTDIR}/DozerFrameworkEvents.o ${OBJECTDIR}/TapeSensorService.o
+OBJECTFILES=${OBJECTDIR}/_ext/331920610/AD.o ${OBJECTDIR}/_ext/331920610/BOARD.o ${OBJECTDIR}/_ext/331920610/ES_Framework.o ${OBJECTDIR}/_ext/331920610/pwm.o ${OBJECTDIR}/_ext/331920610/serial.o ${OBJECTDIR}/RoachMain.o ${OBJECTDIR}/RoachFSM.o ${OBJECTDIR}/DozerFrameworkEvents.o ${OBJECTDIR}/Dozer.o ${OBJECTDIR}/TapeSensorService.o ${OBJECTDIR}/_ext/1953262111/IO_Ports.o ${OBJECTDIR}/_ext/1953262111/RC_Servo.o
 
 # Source Files
-SOURCEFILES=C:/CMPE118/src/AD.c C:/CMPE118/src/BOARD.c C:/CMPE118/src/ES_Framework.c C:/CMPE118/src/pwm.c C:/CMPE118/src/serial.c RoachMain.c RoachFSM.c ../../../../CMPE118/src/IO_Ports.c ../../../../CMPE118/src/RC_Servo.c ../dozer.X/Dozer.c DozerFrameworkEvents.c TapeSensorService.c
+SOURCEFILES=C:/CMPE118/src/AD.c C:/CMPE118/src/BOARD.c C:/CMPE118/src/ES_Framework.c C:/CMPE118/src/pwm.c C:/CMPE118/src/serial.c RoachMain.c RoachFSM.c DozerFrameworkEvents.c Dozer.c TapeSensorService.c ../../../../../CMPE118/src/IO_Ports.c ../../../../../CMPE118/src/RC_Servo.c
 
 
 CFLAGS=
@@ -136,35 +136,35 @@ ${OBJECTDIR}/RoachFSM.o: RoachFSM.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/RoachFSM.o 
 	@${FIXDEPS} "${OBJECTDIR}/RoachFSM.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/RoachFSM.o.d" -o ${OBJECTDIR}/RoachFSM.o RoachFSM.c   
 	
-${OBJECTDIR}/_ext/443050350/IO_Ports.o: ../../../../CMPE118/src/IO_Ports.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/443050350 
-	@${RM} ${OBJECTDIR}/_ext/443050350/IO_Ports.o.d 
-	@${RM} ${OBJECTDIR}/_ext/443050350/IO_Ports.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/443050350/IO_Ports.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/_ext/443050350/IO_Ports.o.d" -o ${OBJECTDIR}/_ext/443050350/IO_Ports.o ../../../../CMPE118/src/IO_Ports.c   
-	
-${OBJECTDIR}/_ext/443050350/RC_Servo.o: ../../../../CMPE118/src/RC_Servo.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/443050350 
-	@${RM} ${OBJECTDIR}/_ext/443050350/RC_Servo.o.d 
-	@${RM} ${OBJECTDIR}/_ext/443050350/RC_Servo.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/443050350/RC_Servo.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/_ext/443050350/RC_Servo.o.d" -o ${OBJECTDIR}/_ext/443050350/RC_Servo.o ../../../../CMPE118/src/RC_Servo.c   
-	
-${OBJECTDIR}/_ext/169173975/Dozer.o: ../dozer.X/Dozer.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/169173975 
-	@${RM} ${OBJECTDIR}/_ext/169173975/Dozer.o.d 
-	@${RM} ${OBJECTDIR}/_ext/169173975/Dozer.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/169173975/Dozer.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/_ext/169173975/Dozer.o.d" -o ${OBJECTDIR}/_ext/169173975/Dozer.o ../dozer.X/Dozer.c   
-	
 ${OBJECTDIR}/DozerFrameworkEvents.o: DozerFrameworkEvents.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/DozerFrameworkEvents.o.d 
 	@${RM} ${OBJECTDIR}/DozerFrameworkEvents.o 
 	@${FIXDEPS} "${OBJECTDIR}/DozerFrameworkEvents.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/DozerFrameworkEvents.o.d" -o ${OBJECTDIR}/DozerFrameworkEvents.o DozerFrameworkEvents.c   
 	
+${OBJECTDIR}/Dozer.o: Dozer.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/Dozer.o.d 
+	@${RM} ${OBJECTDIR}/Dozer.o 
+	@${FIXDEPS} "${OBJECTDIR}/Dozer.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/Dozer.o.d" -o ${OBJECTDIR}/Dozer.o Dozer.c   
+	
 ${OBJECTDIR}/TapeSensorService.o: TapeSensorService.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/TapeSensorService.o.d 
 	@${RM} ${OBJECTDIR}/TapeSensorService.o 
 	@${FIXDEPS} "${OBJECTDIR}/TapeSensorService.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/TapeSensorService.o.d" -o ${OBJECTDIR}/TapeSensorService.o TapeSensorService.c   
+	
+${OBJECTDIR}/_ext/1953262111/IO_Ports.o: ../../../../../CMPE118/src/IO_Ports.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1953262111 
+	@${RM} ${OBJECTDIR}/_ext/1953262111/IO_Ports.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1953262111/IO_Ports.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1953262111/IO_Ports.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/_ext/1953262111/IO_Ports.o.d" -o ${OBJECTDIR}/_ext/1953262111/IO_Ports.o ../../../../../CMPE118/src/IO_Ports.c   
+	
+${OBJECTDIR}/_ext/1953262111/RC_Servo.o: ../../../../../CMPE118/src/RC_Servo.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1953262111 
+	@${RM} ${OBJECTDIR}/_ext/1953262111/RC_Servo.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1953262111/RC_Servo.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1953262111/RC_Servo.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -fframe-base-loclist  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/_ext/1953262111/RC_Servo.o.d" -o ${OBJECTDIR}/_ext/1953262111/RC_Servo.o ../../../../../CMPE118/src/RC_Servo.c   
 	
 else
 ${OBJECTDIR}/_ext/331920610/AD.o: C:/CMPE118/src/AD.c  nbproject/Makefile-${CND_CONF}.mk
@@ -209,35 +209,35 @@ ${OBJECTDIR}/RoachFSM.o: RoachFSM.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/RoachFSM.o 
 	@${FIXDEPS} "${OBJECTDIR}/RoachFSM.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/RoachFSM.o.d" -o ${OBJECTDIR}/RoachFSM.o RoachFSM.c   
 	
-${OBJECTDIR}/_ext/443050350/IO_Ports.o: ../../../../CMPE118/src/IO_Ports.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/443050350 
-	@${RM} ${OBJECTDIR}/_ext/443050350/IO_Ports.o.d 
-	@${RM} ${OBJECTDIR}/_ext/443050350/IO_Ports.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/443050350/IO_Ports.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/_ext/443050350/IO_Ports.o.d" -o ${OBJECTDIR}/_ext/443050350/IO_Ports.o ../../../../CMPE118/src/IO_Ports.c   
-	
-${OBJECTDIR}/_ext/443050350/RC_Servo.o: ../../../../CMPE118/src/RC_Servo.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/443050350 
-	@${RM} ${OBJECTDIR}/_ext/443050350/RC_Servo.o.d 
-	@${RM} ${OBJECTDIR}/_ext/443050350/RC_Servo.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/443050350/RC_Servo.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/_ext/443050350/RC_Servo.o.d" -o ${OBJECTDIR}/_ext/443050350/RC_Servo.o ../../../../CMPE118/src/RC_Servo.c   
-	
-${OBJECTDIR}/_ext/169173975/Dozer.o: ../dozer.X/Dozer.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/169173975 
-	@${RM} ${OBJECTDIR}/_ext/169173975/Dozer.o.d 
-	@${RM} ${OBJECTDIR}/_ext/169173975/Dozer.o 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/169173975/Dozer.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/_ext/169173975/Dozer.o.d" -o ${OBJECTDIR}/_ext/169173975/Dozer.o ../dozer.X/Dozer.c   
-	
 ${OBJECTDIR}/DozerFrameworkEvents.o: DozerFrameworkEvents.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/DozerFrameworkEvents.o.d 
 	@${RM} ${OBJECTDIR}/DozerFrameworkEvents.o 
 	@${FIXDEPS} "${OBJECTDIR}/DozerFrameworkEvents.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/DozerFrameworkEvents.o.d" -o ${OBJECTDIR}/DozerFrameworkEvents.o DozerFrameworkEvents.c   
 	
+${OBJECTDIR}/Dozer.o: Dozer.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/Dozer.o.d 
+	@${RM} ${OBJECTDIR}/Dozer.o 
+	@${FIXDEPS} "${OBJECTDIR}/Dozer.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/Dozer.o.d" -o ${OBJECTDIR}/Dozer.o Dozer.c   
+	
 ${OBJECTDIR}/TapeSensorService.o: TapeSensorService.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/TapeSensorService.o.d 
 	@${RM} ${OBJECTDIR}/TapeSensorService.o 
 	@${FIXDEPS} "${OBJECTDIR}/TapeSensorService.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/TapeSensorService.o.d" -o ${OBJECTDIR}/TapeSensorService.o TapeSensorService.c   
+	
+${OBJECTDIR}/_ext/1953262111/IO_Ports.o: ../../../../../CMPE118/src/IO_Ports.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1953262111 
+	@${RM} ${OBJECTDIR}/_ext/1953262111/IO_Ports.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1953262111/IO_Ports.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1953262111/IO_Ports.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/_ext/1953262111/IO_Ports.o.d" -o ${OBJECTDIR}/_ext/1953262111/IO_Ports.o ../../../../../CMPE118/src/IO_Ports.c   
+	
+${OBJECTDIR}/_ext/1953262111/RC_Servo.o: ../../../../../CMPE118/src/RC_Servo.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1953262111 
+	@${RM} ${OBJECTDIR}/_ext/1953262111/RC_Servo.o.d 
+	@${RM} ${OBJECTDIR}/_ext/1953262111/RC_Servo.o 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1953262111/RC_Servo.o.d" $(SILENT) -rsi ${MP_CC_DIR}../  -c ${MP_CC}  $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -I"." -I"C:/CMPE118/include" -MMD -MF "${OBJECTDIR}/_ext/1953262111/RC_Servo.o.d" -o ${OBJECTDIR}/_ext/1953262111/RC_Servo.o ../../../../../CMPE118/src/RC_Servo.c   
 	
 endif
 
