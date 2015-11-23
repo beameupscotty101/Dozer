@@ -118,8 +118,7 @@ void Boulder_Init(void) {
 }
 
 /*Tape Sensor******************************************************************/
-uint8_t * BoulderTapeSensor(void) {
-    uint8_t tapesensordata[6];
+void BoulderTapeSensor(uint8_t *tapesensordata) {
     int sensor_select = 0;
     for (; sensor_select < 6; sensor_select++) {
         switch (sensor_select) {
@@ -178,8 +177,6 @@ uint8_t * BoulderTapeSensor(void) {
             }
         }
     }
-
-    return tapesensordata;
 }
 
 void TapeSensorLed(int active) {

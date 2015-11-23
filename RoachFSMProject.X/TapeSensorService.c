@@ -116,6 +116,8 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
     ES_Event ReturnEvent;
     ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
 
+    static uint8_t tapeSensorLedOff[6];
+
     if (ThisEvent.EventType == ES_INIT)// only respond to ES_Init
     {
         // No hardware initialization or single time setups, those
@@ -126,15 +128,15 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
 
     if (ThisEvent.EventType == ES_TIMEOUT) {
         if (boulder.Tapeled == ON) {
-            BoulderTapeSensor_Led(ON);
-            BoulderTapeSensor();
+            TapeSensorLed(ON);
+            BoulderTapeSensor(tapeSensorLedOff);
         } else {
-            BoulderTapeSensor_Led(OFF);
+            TapeSensorLed(OFF);
 
         }
 
 
-        ES_Timer_InitTimer(BUMPER_TIMER, 5);
+        ES_Timer_InitTimer(TAPE_TIMER, TIMER_LENGTH);
     }
 
     return ReturnEvent;

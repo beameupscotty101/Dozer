@@ -4,7 +4,7 @@
 void Boulder_Init(void);
 
 /*Tape Sensor******************************************************************/
-uint8_t * BoulderTapeSensor(void);
+void BoulderTapeSensor(uint8_t * tapesensordata);
 void TapeSensorLed(int active);
 
 /*Motor Driving****************************************************************/
