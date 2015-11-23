@@ -34,12 +34,15 @@
 #define TAPE_TIMER 3
 #define TIMER_LENGTH 5 //in milliseconds
 
+#define DARK_THRESHOLD 800
+#define LIGHT_THRESHOLD 500
+
 #define ON 1
 #define OFF 0
 
 typedef union BOULDER {
     int Tapeled;
-}BOULDER;
+} BOULDER;
 
 static BOULDER boulder;
 
@@ -80,7 +83,7 @@ uint8_t InitTapeSensorService(uint8_t Priority) {
     //Init the timer for 5ms
     ES_Timer_InitTimer(TAPE_TIMER, TIMER_LENGTH);
     boulder.Tapeled = ON;
-    
+
     // post the initial transition event
     ThisEvent.EventType = ES_INIT;
     if (ES_PostToService(MyPriority, ThisEvent) == TRUE) {
@@ -116,7 +119,7 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
     ES_Event ReturnEvent;
     ReturnEvent.EventType = ES_NO_EVENT; // assume no errors
 
-    static uint8_t tapeSensorLedOff[6];
+    static uint8_t tapeSensorLedData_ON[6];
 
     if (ThisEvent.EventType == ES_INIT)// only respond to ES_Init
     {
@@ -129,10 +132,25 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
     if (ThisEvent.EventType == ES_TIMEOUT) {
         if (boulder.Tapeled == ON) {
             TapeSensorLed(ON);
-            BoulderTapeSensor(tapeSensorLedOff);
-        } else {
-            TapeSensorLed(OFF);
+            BoulderTapeSensor(tapeSensorLedData_ON);
+        } else if (boulder.Tapeled == OFF) {
+            uint8_t tapeSensorLedData_OFF[6];
+            uint8_t tapeSensorFinalReading[6];
 
+            TapeSensorLed(OFF);
+            BoulderTapeSensor(tapeSensorLedData_OFF);
+
+            //subtract the two readings
+            int i = 0;
+            for (; i < 7; i++) {
+                tapeSensorFinalReading[i] = tapeSensorLedData_OFF[i] - tapeSensorLedData_OFF[i];
+            }
+
+            //do event checking with hysterisis element wise through the array
+            i = 0;
+            for (; i < 7; i++) {
+
+            }
         }
 
 
@@ -145,3 +163,28 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
 /*******************************************************************************
  * PRIVATE FUNCTIONs                                                           *
  ******************************************************************************/
+uint8_t CheckLightLevel(void) {
+    static int lastLightEvent = 0;
+    int currentLightLevel;
+    ES_Event thisEvent;
+    uint8_t returnVal = FALSE;
+
+    currentLightLevel = Roach_LightLevel();
+    if ((currentLightLevel > DARK_THRESHOLD) && (lastLightEvent != DARK_TO_LIGHT)) { //event detected
+        thisEvent.EventType = LIGHTLEVEL;
+        thisEvent.EventParam = (uint16_t) DARK_TO_LIGHT;
+        PostRoachFSM(thisEvent);
+        returnVal = TRUE;
+        lastLightEvent = DARK_TO_LIGHT;
+
+        //        printf("x");
+    } else if ((currentLightLevel < LIGHT_THRESHOLD) && (lastLightEvent != LIGHT_TO_DARK)) {
+        thisEvent.EventType = LIGHTLEVEL;
+        thisEvent.EventParam = (uint16_t) LIGHT_TO_DARK;
+        PostRoachFSM(thisEvent);
+        returnVal = TRUE;
+        lastLightEvent = LIGHT_TO_DARK;
+    }
+
+    return returnVal;
+}

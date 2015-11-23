@@ -9,13 +9,6 @@
 #define	ROACHFRAMEWORKEVENTS_H
 
 
-typedef enum {
-    DARK_TO_LIGHT, LIGHT_TO_DARK
-} lightstate_t;
-
-uint8_t CheckTapeSensor(void);
-uint8_t CheckBumps(void);
-
 
 #endif	/* ROACHFRAMEWORKEVENTS_H */
 
