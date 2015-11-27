@@ -7,4 +7,7 @@ RoachFSM.h  \
 ES_Configure.h  \
  TapeSensorService.h  \
 DozerFrameworkEvents.h  \
-Dozer.h 
+Dozer.h  \
+TapeSensorService.h  \
+ C:/CMPE118/include/AD.h  \
+C:/CMPE118/include/IO_Ports.h 

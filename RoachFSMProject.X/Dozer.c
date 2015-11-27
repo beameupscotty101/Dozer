@@ -1,4 +1,3 @@
-#include <Roach.h>
 #include <BOARD.h>
 #include <xc.h>
 
@@ -7,54 +6,13 @@
 #include <AD.h>
 #include <RC_Servo.h>
 #include <IO_Ports.h>
+#include "Dozer.h"
+#include <stdio.h>
 
 
 /*******************************************************************************
  * private #DEFINES                                                             *
  ******************************************************************************/
-//Tape Sensors
-#define MUX_S0 PIN5
-#define MUX_S1 PIN4
-#define MUX_S2 PIN3
-#define MUX_OUTPT AD_PORTV6
-#define MUX_PORT PORTV
-
-#define TAPESENSORLEDPIN PIN5
-#define TAPESENSORLEDPORT PORTV
-
-//FSR's
-#define FSR1 AD_PORTW3
-#define FSR2 AD_PORTW4
-
-//Bump Sensor
-#define BUMP1 PIN5
-#define BUMP2 PIN6
-#define BUMP_PORT PORTW
-
-//Track Sensors
-#define TRACK1 PIN7
-#define TRACK2 PIN8
-#define TRACk_PORT PORTW
-
-//Ball Launch Mechanism
-#define LOADER RC_PORTX03
-#define LAUNCH_MOTOR PWM_PORTX11
-
-//Beacon Detector
-#define FRONT_BEACON PIN4
-#define BACK_BEACON PIN5
-#define BEACON_PORT PORTX
-
-//Range Sensor
-#define RANGE_SENSOR PIN6
-#define RANGE_PORT PORTX
-
-//Drive Motors
-#define DIR_LEFT PIN6
-#define DIR_RIGHT PIN4
-#define DIR_PORT PORTY
-#define LEFT_MOTOR PWM_PORTY10
-#define RIGHT_MOTOR PWM_PORTY12
 
 ////////////////////////////////////////////////////////////////////////////////
 //Helper Defines                                                              //
@@ -76,25 +34,15 @@
  * @author Scott rad */
 void Boulder_Init(void) {
     //CHECK SYSTEMS
-    if (PWM_Init() == ERROR) {
-        printf("PWM SUBSYSTEM FAILED!");
-    }
+    PWM_Init();
     PWM_SetFrequency(1000);
-
-    if (AD_Init() == ERROR) {
-        printf("AD SUBSYSTEM FAILED!");
-    }
-
-    if (RC_Init() == ERROR) {
-        printf("RC SUBSYSTEM FAILED");
-    }
+    AD_Init();
+    RC_Init();
 
     //Tape Sensor
     IO_PortsSetPortOutputs(MUX_PORT, MUX_S0 | MUX_S1 | MUX_S2);
-    AD_AddPins(MUX_OUTPT);
-
-    //FSR's
-    AD_AddPins(FSR1 | FSR2);
+    IO_PortsSetPortOutputs(TAPESENSORLEDPORT, TAPESENSORLEDPIN);
+    AD_AddPins(MUX_OUTPT | FSR1 | FSR2);
 
     //Bump Sensor
     IO_PortsSetPortInputs(BUMP_PORT, BUMP1 | BUMP2);
@@ -115,66 +63,73 @@ void Boulder_Init(void) {
     //Drive Motor
     IO_PortsSetPortOutputs(DIR_PORT, DIR_LEFT | DIR_RIGHT);
     PWM_AddPins(LEFT_MOTOR | RIGHT_MOTOR);
+
 }
 
 /*Tape Sensor******************************************************************/
-void BoulderTapeSensor(uint8_t *tapesensordata) {
-    int sensor_select = 0;
-    for (; sensor_select < 6; sensor_select++) {
-        switch (sensor_select) {
-            case 0:
-            {
-                IO_PortsClearPortBits(MUX_PORT, MUX_S0);
-                IO_PortsClearPortBits(MUX_PORT, MUX_S1);
-                IO_PortsClearPortBits(MUX_PORT, MUX_S2);
-                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
-                break;
-            }
+uint8_t BoulderTapeSensor(int sensor_select) {
+    switch (sensor_select) {
+        case 0:
+        {
+            IO_PortsClearPortBits(MUX_PORT, MUX_S0);
+            IO_PortsClearPortBits(MUX_PORT, MUX_S1);
+            IO_PortsClearPortBits(MUX_PORT, MUX_S2);
+            return AD_ReadADPin(MUX_OUTPT);
+            break;
+        }
 
-            case 1:
-            {
-                IO_PortsSetPortBits(MUX_PORT, MUX_S0);
-                IO_PortsClearPortBits(MUX_PORT, MUX_S1);
-                IO_PortsClearPortBits(MUX_PORT, MUX_S2);
-                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
-                break;
-            }
+        case 1:
+        {
+            IO_PortsSetPortBits(MUX_PORT, MUX_S0);
+            IO_PortsClearPortBits(MUX_PORT, MUX_S1);
+            IO_PortsClearPortBits(MUX_PORT, MUX_S2);
+            return AD_ReadADPin(MUX_OUTPT);
+            break;
+        }
 
-            case 2:
-            {
-                IO_PortsClearPortBits(MUX_PORT, MUX_S0);
-                IO_PortsSetPortBits(MUX_PORT, MUX_S1);
-                IO_PortsClearPortBits(MUX_PORT, MUX_S2);
-                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
-                break;
-            }
+        case 2:
+        {
+            IO_PortsClearPortBits(MUX_PORT, MUX_S0);
+            IO_PortsSetPortBits(MUX_PORT, MUX_S1);
+            IO_PortsClearPortBits(MUX_PORT, MUX_S2);
+            return AD_ReadADPin(MUX_OUTPT);
+            break;
+        }
 
-            case 3:
-            {
-                IO_PortsSetPortBits(MUX_PORT, MUX_S0);
-                IO_PortsSetPortBits(MUX_PORT, MUX_S1);
-                IO_PortsClearPortBits(MUX_PORT, MUX_S2);
-                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
-                break;
-            }
+        case 3:
+        {
+            IO_PortsSetPortBits(MUX_PORT, MUX_S0);
+            IO_PortsSetPortBits(MUX_PORT, MUX_S1);
+            IO_PortsClearPortBits(MUX_PORT, MUX_S2);
+            return AD_ReadADPin(MUX_OUTPT);
+            break;
+        }
 
-            case 4:
-            {
-                IO_PortsClearPortBits(MUX_PORT, MUX_S0);
-                IO_PortsClearPortBits(MUX_PORT, MUX_S1);
-                IO_PortsSetPortBits(MUX_PORT, MUX_S2);
-                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
-                break;
-            }
+        case 4:
+        {
+            IO_PortsClearPortBits(MUX_PORT, MUX_S0);
+            IO_PortsClearPortBits(MUX_PORT, MUX_S1);
+            IO_PortsSetPortBits(MUX_PORT, MUX_S2);
+            return AD_ReadADPin(MUX_OUTPT);
+            break;
+        }
 
-            case 5:
-            {
-                IO_PortsSetPortBits(MUX_PORT, MUX_S0);
-                IO_PortsClearPortBits(MUX_PORT, MUX_S1);
-                IO_PortsSetPortBits(MUX_PORT, MUX_S2);
-                tapesensordata[sensor_select] = AD_ReadADPin(MUX_OUTPT);
-                break;
-            }
+        case 5:
+        {
+            IO_PortsSetPortBits(MUX_PORT, MUX_S0);
+            IO_PortsClearPortBits(MUX_PORT, MUX_S1);
+            IO_PortsSetPortBits(MUX_PORT, MUX_S2);
+            return AD_ReadADPin(MUX_OUTPT);
+            break;
+        }
+
+        case 6:
+        {
+            IO_PortsClearPortBits(MUX_PORT, MUX_S0);
+            IO_PortsSetPortBits(MUX_PORT, MUX_S1);
+            IO_PortsSetPortBits(MUX_PORT, MUX_S2);
+            return AD_ReadADPin(MUX_OUTPT);
+            break;
         }
     }
 }
@@ -300,4 +255,138 @@ int16_t Boulder_Beacon_Detector_Back(void) {
 char Boulder_Activate_Shooting_Motor(int speed) {
     return PWM_SetDutyCycle(LAUNCH_MOTOR, speed);
 }
+
+
+#ifdef NASTY_BLOCKING_TEST
+
+int main(int nargs, char** args) {
+    BOARD_Init();
+    //Boulder_Init();
+    SERIAL_Init();
+    IO_PortsSetPortOutputs(MUX_PORT, MUX_S0 | MUX_S1 | MUX_S2);
+    IO_PortsSetPortOutputs(TAPESENSORLEDPORT, TAPESENSORLEDPIN);
+    AD_AddPins(MUX_OUTPT | FSR1 | FSR2);
+    PWM_Init();
+    PWM_SetFrequency(1000);
+    IO_PortsSetPortOutputs(DIR_PORT, DIR_LEFT | DIR_RIGHT);
+    PWM_AddPins(LEFT_MOTOR | RIGHT_MOTOR);
+    TapeSensorLed(1);
+
+    printf("Nasty Blocking Test Harness. Make it so...\n");
+
+    uint8_t tapeData[NUMBEROFTAPESENSORS];
+    char in;
+    int i;
+
+    for (;;) {
+        while (IsReceiveEmpty()) {
+        }
+        in = GetChar();
+        switch (in) {
+            case '-':
+                //                BoulderTapeSensor(tapeData);
+                //                printf("Tape Sensor Data: ");
+                //                for (i = 0; i < NUMBEROFTAPESENSORS; i++)
+                //                    printf("\t[%d]: %d ", i, tapeData[i]);
+                //                printf("\n");
+                printf("LED: Off\n");
+                TapeSensorLed(0);
+                break;
+
+            case '=':
+                printf("LED: Engage\n");
+                TapeSensorLed(1);
+                break;
+
+            case '1':
+                IO_PortsClearPortBits(MUX_PORT, MUX_S0);
+                IO_PortsClearPortBits(MUX_PORT, MUX_S1);
+                IO_PortsClearPortBits(MUX_PORT, MUX_S2);
+                while (!AD_IsNewDataReady());
+                printf("Tape 0: %u\n", AD_ReadADPin(MUX_OUTPT));
+                break;
+
+            case '2':
+                IO_PortsSetPortBits(MUX_PORT, MUX_S0);
+                IO_PortsClearPortBits(MUX_PORT, MUX_S1);
+                IO_PortsClearPortBits(MUX_PORT, MUX_S2);
+                while (!AD_IsNewDataReady());
+                printf("Tape 1: %u\n", AD_ReadADPin(MUX_OUTPT));
+                break;
+
+            case '3':
+                IO_PortsClearPortBits(MUX_PORT, MUX_S0);
+                IO_PortsSetPortBits(MUX_PORT, MUX_S1);
+                IO_PortsClearPortBits(MUX_PORT, MUX_S2);
+                while (!AD_IsNewDataReady());
+                printf("Tape 2: %u\n", AD_ReadADPin(MUX_OUTPT));
+                break;
+
+            case '4':
+                IO_PortsSetPortBits(MUX_PORT, MUX_S0);
+                IO_PortsSetPortBits(MUX_PORT, MUX_S1);
+                IO_PortsClearPortBits(MUX_PORT, MUX_S2);
+                while (!AD_IsNewDataReady());
+                printf("Tape 3: %u\n", AD_ReadADPin(MUX_OUTPT));
+                break;
+
+            case '5':
+                IO_PortsClearPortBits(MUX_PORT, MUX_S0);
+                IO_PortsClearPortBits(MUX_PORT, MUX_S1);
+                IO_PortsSetPortBits(MUX_PORT, MUX_S2);
+                while (!AD_IsNewDataReady());
+                printf("Tape 4: %u\n", AD_ReadADPin(MUX_OUTPT));
+                break;
+
+            case '6':
+                IO_PortsSetPortBits(MUX_PORT, MUX_S0);
+                IO_PortsClearPortBits(MUX_PORT, MUX_S1);
+                IO_PortsSetPortBits(MUX_PORT, MUX_S2);
+                while (!AD_IsNewDataReady());
+                printf("Tape 5: %u\n", AD_ReadADPin(MUX_OUTPT));
+                break;
+
+
+            case '7':
+                IO_PortsClearPortBits(MUX_PORT, MUX_S0);
+                IO_PortsSetPortBits(MUX_PORT, MUX_S1);
+                IO_PortsSetPortBits(MUX_PORT, MUX_S2);
+                printf("Tape 6: %u\n", AD_ReadADPin(MUX_OUTPT));
+                break;
+
+            case 'q':
+                break;
+
+            case 'w':
+                break;
+
+            case 'e':
+                break;
+
+            case 'r':
+                break;
+
+            case 't':
+                while (!AD_IsNewDataReady());
+                printf("FSR1: %d\n", AD_ReadADPin(FSR1));
+                break;
+
+            case 'y':
+                while (!AD_IsNewDataReady());
+                printf("FSR2: %d\n", AD_ReadADPin(FSR2));
+                break;
+
+            case ',':
+                Boulder_TankTurn(-9);
+                break;
+
+            case '.':
+                Boulder_TankTurn(9);
+                break;
+        }
+    }
+
+}
+
+#endif//NASTY_BLOCKING_TEST
 

@@ -15,21 +15,12 @@
  * MODULE #DEFINES                                                             *
  ******************************************************************************/
 
-#define TAPE_TIMER 3
-#define TIMER_LENGTH 5 //in milliseconds
+#define DARK_THRESHOLD 450
+#define LIGHT_THRESHOLD 750
 
-#define DARK_THRESHOLD 800
-#define LIGHT_THRESHOLD 500
+unsigned tapeSensorLedData_ON[NUMBEROFTAPESENSORS];
+unsigned tapeSensorLedData_OFF[NUMBEROFTAPESENSORS];
 
-#define ON 1
-#define OFF 0
-
-typedef union BOULDER {
-    int Tapeled;
-} BOULDER;
-
-static BOULDER boulder;
-static uint8_t tapeSensorLedData_ON[6];
 
 /*******************************************************************************
  * PRIVATE FUNCTION PROTOTYPES                                                 *
@@ -65,9 +56,7 @@ uint8_t InitTapeSensorService(uint8_t Priority) {
     ES_Event ThisEvent;
     MyPriority = Priority;
 
-    //Init the timer for 5ms
-    ES_Timer_InitTimer(TAPE_TIMER, TIMER_LENGTH);
-    boulder.Tapeled = ON;
+    // ES_Timer_InitTimer(3, TIMER_LENGTH);
 
     // post the initial transition event
     ThisEvent.EventType = ES_INIT;
@@ -106,52 +95,129 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
 
     //this is used as a flag
     char event = ERROR;
+    uint16_t tapeSensorFinalReading[6];
+    static int prevEvent[NUMBEROFTAPESENSORS];
 
 
     if (ThisEvent.EventType == ES_INIT)// only respond to ES_Init
     {
-        // No hardware initialization or single time setups, those
-        // go in the init function above.
-        //
-        // This section is used to reset service for some reason
+        
     }
 
-    if (ThisEvent.EventType == ES_TIMEOUT) {
-        if (boulder.Tapeled == ON) {
-            TapeSensorLed(ON);
-            BoulderTapeSensor(tapeSensorLedData_ON);
-            boulder.Tapeled = OFF;
-        } else if (boulder.Tapeled == OFF) {
-            uint8_t tapeSensorLedData_OFF[6];
-            uint8_t tapeSensorFinalReading[6];
+    if (ThisEvent.EventType == TAPESENSOR) {
 
-            TapeSensorLed(OFF);
-            BoulderTapeSensor(tapeSensorLedData_OFF);
+        typedef enum state_t {
+            first_reading,
+            second_reading,
+            third_reading,
+            fourth_reading,
+            fifth_reading,
+            check_event,
+        } state_t;
 
-            //subtract the two readings
-            int i = 0;
-            for (; i < 7; i++) {
-                tapeSensorFinalReading[i] = tapeSensorLedData_ON[i] - tapeSensorLedData_OFF[i];
+        static state_t state = first_reading;
+        static int readings[NUMBEROFTAPESENSORS];
+
+        int i = 0;
+        for (; i < 7; i++) {
+            tapeSensorFinalReading[i] = tapeSensorLedData_ON[i] - tapeSensorLedData_OFF[i];
+            if (tapeSensorFinalReading[i] > 32768) {
+                tapeSensorFinalReading[i] = 0;
+            }
+        }
+
+        switch (state) {
+            case first_reading:
+            {
+                i = 0;
+                for (; i < NUMBEROFTAPESENSORS; i++) {
+                    readings[i] = 0;
+                    if (tapeSensorFinalReading[i] > DARK_THRESHOLD) {
+                        readings[i] += 1;
+                    } else if (tapeSensorFinalReading[i] < LIGHT_THRESHOLD) {
+                        readings[i] -= 1;
+                    }
+                }
+                state = second_reading;
+                break;
             }
 
-            //do event checking with hysterisis element wise through the array
-            i = 0;
-            for (; i < 7; i++) {
-                if ( == SUCCESS) {
+            case second_reading:
+            {
+                i = 0;
+                for (; i < NUMBEROFTAPESENSORS; i++) {
+                    if (tapeSensorFinalReading[i] > DARK_THRESHOLD) {
+                        readings[i] += 1;
+                    } else if (tapeSensorFinalReading[i] < LIGHT_THRESHOLD) {
+                        readings[i] -= 1;
+                    }
+                }
+                state = third_reading;
+                break;
+            }
 
+            case third_reading:
+            {
+                i = 0;
+                for (; i < NUMBEROFTAPESENSORS; i++) {
+                    if (tapeSensorFinalReading[i] > DARK_THRESHOLD) {
+                        readings[i] += 1;
+                    } else if (tapeSensorFinalReading[i] < LIGHT_THRESHOLD) {
+                        readings[i] -= 1;
+                    }
+                }
+                state = fourth_reading;
+                break;
+            }
+
+            case fourth_reading:
+            {
+                i = 0;
+                for (; i < NUMBEROFTAPESENSORS; i++) {
+                    if (tapeSensorFinalReading[i] > DARK_THRESHOLD) {
+                        readings[i] += 1;
+                    } else if (tapeSensorFinalReading[i] < LIGHT_THRESHOLD) {
+                        readings[i] -= 1;
+                    }
+                }
+                state = check_event;
+                break;
+            }
+
+
+            case check_event:
+            {
+                static char first_time = 0;
+                if (first_time != 0) {
+                    i = 0;
+                    for (; i < NUMBEROFTAPESENSORS; i++) {
+                        if (readings[i] >= 2 && prevEvent[i] == 0) {
+                            prevEvent[i] = 1;
+                            printf("%d: Event Detected Low to High\n", i);
+                        } else if (readings[i] <= -2 && prevEvent[i] == 1) {
+                            printf("%d: Event Detected High to LOW\n", i);
+                            prevEvent[i] = 0;
+                        }
+                    }
+                    state = first_reading;
+                    break;
+                } else {
+                    i = 0;
+                    for (; i < NUMBEROFTAPESENSORS; i++) {
+                        if (readings[i] >= 2) {
+                            prevEvent[i] = 1;
+                        } else if (readings[i] <= -2) {
+                            prevEvent[i] = 0;
+                        }
+                    }
+                    first_time = 1;
+                    state = first_reading;
+                    break;
                 }
             }
-            boulder.Tapeled = ON;
         }
-
-        if (event == SUCCESS) {
-            ReturnEvent.EventType = TAPESENSOR;
-            ReturnEvent.EventParam = (uint16_t) LIGHT_TO_DARK;
-        }
-
-
-        ES_Timer_InitTimer(TAPE_TIMER, TIMER_LENGTH);
     }
+
 
     return ReturnEvent;
 }
@@ -159,24 +225,3 @@ ES_Event RunTapeSensorService(ES_Event ThisEvent) {
 /*******************************************************************************
  * PRIVATE FUNCTIONs                                                           *
  ******************************************************************************/
-char CheckLightLevel(int currentLightLevel, int lastLightEvent) {
-    ES_Event thisEvent;
-    uint8_t returnVal = FALSE;
-
-    currentLightLevel = Roach_LightLevel();
-    if ((currentLightLevel > DARK_THRESHOLD) && (lastLightEvent != DARK_TO_LIGHT)) {
-        thisEvent.EventType = LIGHTLEVEL;
-        thisEvent.EventParam = (uint16_t) DARK_TO_LIGHT;
-        PostRoachFSM(thisEvent);
-        returnVal = TRUE;
-        lastLightEvent = DARK_TO_LIGHT;
-
-    } else if ((currentLightLevel < LIGHT_THRESHOLD) && (lastLightEvent != LIGHT_TO_DARK)) {
-        thisEvent.EventType = LIGHTLEVEL;
-        thisEvent.EventParam = (uint16_t) LIGHT_TO_DARK;
-        returnVal = TRUE;
-        lastLightEvent = LIGHT_TO_DARK;
-    }
-
-    return returnVal;
-}

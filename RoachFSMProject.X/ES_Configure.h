@@ -48,11 +48,11 @@
     EVENT(LIGHTLEVEL) \
     /* User-defined events start here */ \
     EVENT(TAPESENSOR)  /* Bump sensors triggered*/ \
-    EVENT(DONE_EVADING)  /*lower level evade state machine done */ \
-    
+
 // This turns the EVENT_NAMES list into an enum statement
 // To see how it expands, right-click -> navigate -> View macro expansion
 #define ENUM_FORM(STATE) STATE, //Enums are reprinted verbatim and comma'd
+
 typedef enum {
     EVENT_NAMES(ENUM_FORM)
     NUMBEROFEVENTS,
@@ -71,7 +71,7 @@ static const char *EventNames[] = {
 
 /****************************************************************************/
 // This is the list of event checking functions
-#define EVENT_CHECK_LIST  
+#define EVENT_CHECK_LIST  CheckTapeSensors
 
 /****************************************************************************/
 // These are the definitions for the post functions to be executed when the

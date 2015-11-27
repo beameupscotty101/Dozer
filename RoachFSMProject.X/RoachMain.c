@@ -6,6 +6,8 @@
 #include "Dozer.h"
 #include "BOARD.h"
 
+#ifndef NASTY_BLOCKING_TEST
+
 void main(void) {
     ES_Return_t ErrorType;
 
@@ -43,6 +45,8 @@ void main(void) {
         ;
 
 };
+
+#endif//NASTY_BLOCKING_TEST
 
 /*------------------------------- Footnotes -------------------------------*/
 /*------------------------------ End of file ------------------------------*/

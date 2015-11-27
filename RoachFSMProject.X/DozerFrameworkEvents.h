@@ -9,6 +9,7 @@
 #define	ROACHFRAMEWORKEVENTS_H
 
 
+uint8_t CheckTapeSensors();
 
 #endif	/* ROACHFRAMEWORKEVENTS_H */
 
